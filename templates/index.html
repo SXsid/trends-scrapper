@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stir Assignment</title>
+    <style>
+      body {
+        background-color: #14171a;
+        color: white;
+        font-family:
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      /* Button Styles */
+      #btn {
+        background-color: #1da1f2;
+        color: white; /* White text */
+        font-size: 16px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      #btn:hover {
+        background-color: #0d95e8;
+      }
+
+      /* Data Section Styles */
+      #data {
+        margin-top: 20px;
+        font-size: 18px;
+        width: 80%;
+        padding: 10px;
+        background-color: #1c1e21;
+        border-radius: 10px;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="btn" style="padding">Run</button>
+    <div id="data" style="margin-top: 20px"></div>
+
+    <script>
+      async function findTrends() {
+        try {
+          const place = document.getElementById("data");
+          place.innerHTML = "loading";
+          const res = await fetch("/trends");
+          const trends = await res.json();
+
+          console.log(trends);
+          place.innerHTML = "";
+          trends.forEach((trend, index) => {
+            const trendElement = document.createElement("p");
+            trendElement.textContent = `${trend}`;
+            place.appendChild(trendElement);
+          });
+        } catch (error) {
+          console.error("Error fetching trends:", error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const btn = document.getElementById("btn");
+        btn.addEventListener("click", findTrends);
+      });
+    </script>
+  </body>
+</html>
